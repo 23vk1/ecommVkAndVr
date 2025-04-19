@@ -1,0 +1,27 @@
+# Global ignores
+node_modules/
+dist/
+build/
+.env
+*.log
+.DS_Store
+
+# Backend ignores
+/backend/node_modules/
+/backend/.env
+/backend/dist/
+
+/frontend/node_modules/
+/frontend/.env
+/frontend/dist/
+/frontend/build/
+
+# Dashboard ignores
+/dashboard/node_modules/
+/dashboard/.env
+/dashboard/dist/
+/dashboard/build/
+
+# IDE/editor
+.vscode/
+.idea/

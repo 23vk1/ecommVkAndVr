@@ -1,0 +1,149 @@
+
+
+///////////////// postgresql ////////////////////////////////////
+
+
+Table users {
+  id integer [primary key]
+  username varchar
+  name varchar
+  phone bigint
+  email varchar
+  gender varchar
+  birthdate date
+  role varchar
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table wallet {
+  id integer [primary key]
+  user_id integer [not null]
+  balance float [not null]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table addresses {
+  id integer [primary key]
+  user_id integer [not null]
+  pincode integer
+  flat_house_building varchar
+  street_address varchar
+  landmark varchar
+  town_city varchar
+  state varchar
+  isDefault bool
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table orders {
+  id integer [primary key]
+  user_id integer [not null]
+  product_id INTEGER [not null]
+  order_place_time datetime
+  order_delivered_time datetime
+  shipping_address_id integer [not null]
+  // delivry_address_id integer [not null]
+  transaction_id integer [not null]
+  order_status enum("PENDING", "SHIPPED", "DELIVERED")
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table transaction {
+  id integer [primary key]
+  user_id integer [not null]
+  merchant_id integer [not null]
+  order_id integer [not null]
+  product_id INTEGER [not null]
+  payment_method enum("WALLET", "CARD", "UPI")
+  debit_wallet_id integer 
+  credit_wallet_id integer 
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+
+}
+
+Table products {
+    id integer [primary key]
+    name VARCHAR [NOT NULL]
+    price DECIMAL(10,2) [NOT NULL]
+    stock INTEGER [NOT NULL]
+    category VARCHAR(100)
+    brand VARCHAR(100)
+    created_at TIMESTAMP 
+    updated_at TIMESTAMP 
+}
+
+TABLE order_items {
+    id SERIAL [PRIMARY KEY]
+    order_id INTEGER 
+    product_id INTEGER 
+    quantity INTEGER [NOT NULL]
+    price DECIMAL(10,2) [NOT NULL]
+}
+
+
+Ref: "users"."id" < "addresses"."user_id"
+
+Ref: "users"."id" - "wallet"."user_id"
+
+Ref: "users"."id" < "orders"."user_id"
+
+Ref: "addresses"."id" < "orders"."shipping_address_id"
+
+Ref: "users"."id" < "transaction"."user_id"
+
+Ref: "orders"."id" - "transaction"."order_id"
+
+Ref: "users"."id" < "transaction"."merchant_id"
+
+Ref: "wallet"."id" < "transaction"."debit_wallet_id"
+
+Ref: "wallet"."id" < "transaction"."credit_wallet_id"
+
+Ref: "products"."id" < "transaction"."product_id"
+
+
+Ref: "products"."id" < "order_items"."product_id"
+
+Ref: "orders"."id" < "order_items"."order_id"
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////
+///////////////// mongodb ////////////////////////////////////
+
+{
+  "_id": "ObjectId",          // Unique MongoDB ID
+  "product_id": 124,          // Matches PostgreSQL ID (if using hybrid)
+  "name": "Casual T-Shirt",   // Product Name
+  "category": "Clothing",     // Category (Electronics, Clothing, etc.)
+  "price": 19.99,             // Product Price
+  "stock": 50,                // Available Stock
+  "specifications": { },      // Dynamic Specifications (Different for each product)
+  "images": [                 // Array of Image URLs
+    "https://example.com/shirt1.jpg"
+  ],
+  "created_at": "2025-03-29T10:05:00Z" // Timestamp
+}
+
+
+
+
+
+
+
+
+
+
