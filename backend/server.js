@@ -1,22 +1,11 @@
-import exprss from "express"
 import dotenv from "dotenv"
-import router from "./routes/index.js";
+import app from "./app.js";
 
-import "./config/db.postgres.js"
-
+import "./db/postgres.js"
 dotenv.config();
-
-
-const app = exprss();
 const PORT = process.env.PORT;
 
-app.use(exprss.json());
-app.use('/', router);
-
-
-
 app.listen(PORT, ()=>{
-    console.log(`Srver Startd at ${PORT}`);
-    
+    console.log(`Server running on http://localhost:${PORT}`);  
 })
 
