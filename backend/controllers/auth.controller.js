@@ -25,11 +25,14 @@ export const registerUser = async(req, res) =>{
 
 export const loginUser = async(req, res)=>{
     const {email, password}= req.body;
+    console.log("email", email, "password", password);
+    
 
     try{
-        const result = await pool.query('SELECT * FROM users WHERE email = $1'[email]);
+        const result = await pool.query('SELECT * FROM users WHERE email = $1',[email]);
+        
         const user = result.rows[0];
-
+        
         if(!user) return res.status(404).json({error : 'User Not found'});
 
         const isMatch = await bcrypt.compare(password, user.password);

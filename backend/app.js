@@ -1,13 +1,12 @@
 import exprss from "express"
-import userRoutes from "./routes/user.routes.js";
-import authRoutes from './routes/auth.routes.js';
+import mainRouter from './routes/index.js'
 
 const app = exprss();
 
 app.use(exprss.json());
 
-app.use('/api/users', userRoutes);
-app.use('/api/auth', authRoutes);
+// all routes
+app.use('/api', mainRouter);
 
 export default app;
 
