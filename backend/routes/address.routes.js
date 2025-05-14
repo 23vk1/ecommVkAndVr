@@ -1,12 +1,25 @@
 import express from 'express';
-import * as addressController from '../controllers/address.controller.js'
+import {
+    createAddress,
+    updateAddress, 
+    deleteAddress,
+    getAddressesByUserId,
+    setDefaultAddress
+} from '../controllers/address.controller.js'
+import { protect} from '../middleware/auth.middleware.js'
 
 const router = express.Router();
 
+router.use(protect);
 
-router.post('/', addressController.createAddress)
-router.get('/:userId', addressController.getAddressesByUserId)
-router.put('/:id', addressController.updateAddress)
+
+
+// testing pending 
+router.post('/', createAddress);
+router.get('/', getAddressesByUserId);
+router.put('/:addressId', updateAddress);
+router.delete('/:addressId', deleteAddress);
+router.patch('/:addressId/default', setDefaultAddress);
 
 export default router;
 
