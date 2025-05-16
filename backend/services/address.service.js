@@ -99,38 +99,29 @@ export const updateAddressService = async (addressId, userId, updatedDate) => {
     `UPDATE addresses SET ${fields}, updated_at = NOW() WHERE id = $${
       values.length - 1
     } AND user_id = $${values.length} RETURNING *`,
-    values  
+    values
   );
 
-
   return result.rows[0];
-
 };
 
-export const softDeleteAddressService = async(addressId, userId) =>{
-
+export const softDeleteAddressService = async (addressId, userId) => {
   await pool.query(
     `UPDATE addresses SET deleted_at = NOW() WHERE id = $1 AND user_id = $2`,
     [addressId, userId]
   );
 };
 
-export const setDefaultAddressService = async(userId, addressId)=> {
-
-
-
+export const setDefaultAddressService = async (userId, addressId) => {
   await pool.query(
-    `UPDATE addresses SET isdefault = false WHERE user_id = $2`,
+    `UPDATE addresses SET isdefault = false WHERE user_id = $1`,
     [userId]
   );
 
-
-  const result = pool.query(
-    `UPDATE addresses SET isdefault = true WHERE id = $1 AND user_id = $2`,
+  const result = await pool.query(
+    `UPDATE addresses SET isdefault = true WHERE id = $1 AND user_id = $2 RETURNING *`,
     [addressId, userId]
   );
 
   return result.rows[0];
-}
-
-
+};
